@@ -7,8 +7,20 @@ public class CPTAdrian{
 		intDeck = loadDeck();
 		// test: con.println(intDeck[50][0]);
 		// test: con.println(intDeck[50][1]);
+		MainScreen(con);
 	}
 	
+	public static void MainScreen(Console con){
+		con.clear();
+		con.println("Video Poker");
+		con.println("Play (P)");
+		con.println("View Leaderboard (L)");
+		con.println("Quit (Q)");
+		String strInputMain = con.readLine();
+		if(strInputMain.equalsIgnoreCase("q")){
+			con.closeConsole();
+		}
+	}
 	public static int[][] loadDeck(){
 		// initialize deck
 		int intDeck[][];
@@ -34,7 +46,7 @@ public class CPTAdrian{
 			}
 		}
 		
-		// test: con.println(intDeck[51][1]);
+		System.out.println(intDeck[51][1]);
 		
 		return intDeck;
 	}
