@@ -1,4 +1,7 @@
 import arc.*;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.Font;
 
 public class CPTAdrian{
 	public static void main(String[] args){
@@ -11,12 +14,16 @@ public class CPTAdrian{
 	}
 	
 	public static void MainScreen(Console con){
+		BufferedImage imgMain = con.loadImage("Cover.png");
+		// TEMPORARY COVER IMAGE
+		con.drawImage(imgMain, 0, 0);
+		con.println("");
 		con.clear();
-		con.println("Video Poker");
-		con.println("Play (P)");
-		con.println("View Leaderboard (L)");
-		con.println("Help (H)");
-		con.println("Quit (Q)");
+		// con.println("Video Poker");
+		// con.println("Play (P)");
+		// con.println("View Leaderboard (L)");
+		// con.println("Help (H)");
+		// con.println("Quit (Q)");
 		char chrInputMain = con.getChar();
 		
 		// reacting to different keys being clicked
@@ -24,6 +31,8 @@ public class CPTAdrian{
 			con.closeConsole();
 		}else if(chrInputMain == 's' || chrInputMain == 'S'){
 			con.clear();
+			con.setDrawColor(Color.BLACK);
+			con.fillRect(0,0,1280,720);
 			con.println("What's the difference between a large pizza and a poker player?");
 			con.println("A large pizza can feed a family of four, a poker player can't.");
 			con.sleep(5000);
