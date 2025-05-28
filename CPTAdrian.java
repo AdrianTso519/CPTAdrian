@@ -6,8 +6,6 @@ import java.awt.Font;
 public class CPTAdrian{
 	public static void main(String[] args){
 		Console con = new Console("CPTAdrian - Video Poker", 1280, 720);
-		int intDeck[][];
-		intDeck = loadDeck();
 		// test: con.println(intDeck[50][0]);
 		// test: con.println(intDeck[50][1]);
 		MainScreen(con);
@@ -37,8 +35,52 @@ public class CPTAdrian{
 			con.println("A large pizza can feed a family of four, a poker player can't.");
 			con.sleep(5000);
 			MainScreen(con);
+		}else if(chrInputMain == 'p' || chrInputMain == 'P'){
+			PlayScreen(con);
 		}
 	}
+	
+	public static void PlayScreen(Console con){
+		con.println("TEST");
+		con.clear();
+		con.setDrawColor(Color.BLACK);
+		con.fillRect(0,0,1280,720);
+		
+		// ask for username
+		String strUserName;
+		con.println("What is your name?");
+		strUserName = con.readLine();
+		
+		// giving out money to player
+		int intUserMoney = 0;
+		if(strUserName.equalsIgnoreCase("statitan")){
+			intUserMoney = 100000;
+		}else{
+			intUserMoney = 1000;
+		}
+		
+		System.out.println("TEST MONEY VALUE: "+intUserMoney);
+		
+		// preparing the deck
+		int intDeck[][];
+		intDeck = loadDeck();
+		System.out.println(intDeck[50][2]);
+		int intShuffledDeck[][];
+		intShuffledDeck = sortDeck(intDeck);
+		con.println(intShuffledDeck[50][2]);
+		
+		// ask for bet
+		int intUserBet = 0;
+		con.println("What is your bet?");
+		intUserBet = con.readInt();
+		
+		System.out.println("TEST BET VALUE: "+intUserBet);
+		
+		// TEMPORARY RETURN
+		con.sleep(5000);
+		MainScreen(con);
+	}
+	
 	public static int[][] loadDeck(){
 		// initialize deck
 		int intDeck[][];
@@ -64,8 +106,29 @@ public class CPTAdrian{
 			}
 		}
 		
-		System.out.println(intDeck[51][1]);
+		System.out.println(intDeck[51][2]);
 		
 		return intDeck;
 	}
+
+	public static int[][] sortDeck(int intDeck [][]) {
+
+        int intTemp[] = new int[3];
+        int intCount;
+        int intCount2;
+        int intCount3;
+
+        for (intCount2 = 0; intCount2 < 52-1; intCount2++) {
+            for (intCount = 0; intCount < 52-1; intCount++) {
+                if (intDeck [intCount][2] > intDeck [intCount+1][2]) {
+                    for (intCount3 = 0; intCount3 < 3; intCount3++) {
+                        intTemp [intCount3] = intDeck [intCount][intCount3];
+                        intDeck [intCount][intCount3] = intDeck [intCount+1][intCount3];
+                        intDeck [intCount+1][intCount3] = intTemp [intCount3];
+                    }
+                }
+            }
+        }
+        return intDeck;
+    }
 }
