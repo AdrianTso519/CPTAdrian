@@ -15,10 +15,19 @@ public class CPTAdrian{
 		con.println("Video Poker");
 		con.println("Play (P)");
 		con.println("View Leaderboard (L)");
+		con.println("Help (H)");
 		con.println("Quit (Q)");
-		String strInputMain = con.readLine();
-		if(strInputMain.equalsIgnoreCase("q")){
+		char chrInputMain = con.getChar();
+		
+		// reacting to different keys being clicked
+		if(chrInputMain == 'q' || chrInputMain == 'Q'){
 			con.closeConsole();
+		}else if(chrInputMain == 's' || chrInputMain == 'S'){
+			con.clear();
+			con.println("What's the difference between a large pizza and a poker player?");
+			con.println("A large pizza can feed a family of four, a poker player can't.");
+			con.sleep(5000);
+			MainScreen(con);
 		}
 	}
 	public static int[][] loadDeck(){
