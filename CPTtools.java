@@ -67,6 +67,21 @@ public class CPTtools{
 		
 		System.out.println("TEST BET VALUE: "+intUserBet);
 		
+		// show hand
+		
+		int intHand[][];
+		intHand = new int[5][2];
+		
+		InitialHand(con, intHand, intDeck);
+		
+		// ask to swap
+		String strSwap;
+		con.println("Which cards do you want to swap? (Ex. 124) (n for no)");
+		strSwap = con.readLine();
+		if(!strSwap.equalsIgnoreCase("n")){
+			SwappedHand(con, intHand, intDeck, strSwap);
+		}
+		
 		// TEMPORARY RETURN
 		con.sleep(5000);
 		MainScreen(con);
@@ -128,4 +143,58 @@ public class CPTtools{
         }
         return intDeck;
     }
+
+	// used to load your hand
+	public static void InitialHand(Console con, int intHand[][], int intDeck[][]){
+		int intCountHand;
+		
+		for(intCountHand = 0; intCountHand < 5; intCountHand++){
+			intHand[intCountHand][0] = intDeck[intCountHand][0];
+			intHand[intCountHand][1] = intDeck[intCountHand][1];
+			
+			// for showing card value
+			con.print(intCountHand+1+" - ");
+			if(intHand[intCountHand][0] == 1){
+				con.print("ace");
+			}else if(intHand[intCountHand][0] == 11){
+				con.print("jack");
+			}else if(intHand[intCountHand][0] == 12){
+				con.print("queen");
+			}else if(intHand[intCountHand][0] == 13){
+				con.print("king");
+			}else{
+				con.print(intHand[intCountHand][0]);
+			}
+			
+			con.print(" of ");
+			
+			// for showing card suit
+			if(intHand[intCountHand][1] == 1){
+				con.print("diamonds");
+			}else if(intHand[intCountHand][1] == 2){
+				con.print("clubs");
+			}else if(intHand[intCountHand][1] == 3){
+				con.print("hearts");
+			}else if(intHand[intCountHand][1] == 4){
+				con.print("spades");
+			}
+			
+			con.println("");
+		}
+	}
+
+	// used to swap hand
+	public static void SwappedHand(Console con, int intHand[][], int intDeck[][], String strSwap){
+		int intLength = strSwap.length();
+		System.out.println(intLength);
+		String strSwapCardAmount[];
+		strSwapCardAmount = new String[intLength];
+		
+		// used to get individual digits of the string
+		int intCount1;
+		for(intCount1 = 0; intCount1 < 4; intCount1++){
+			strSwapCardAmount[intCount1] = strSwap.substring(intCount1, intCount1+1);
+			System.out.println(strSwapCardAmount[intCount1]);
+		}
+	}
 }
