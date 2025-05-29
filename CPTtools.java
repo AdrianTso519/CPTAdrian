@@ -48,12 +48,12 @@ public class CPTtools{
 			}
 			
 			System.out.println("TEST MONEY VALUE: "+intUserMoney);
-			PlayScreen(con);
+			PlayScreen(con, intUserMoney);
 		}
 	}
 	
 	// play screen
-	public static void PlayScreen(Console con){
+	public static void PlayScreen(Console con, int intUserMoney){
 		// preparing the deck
 		int intDeck[][];
 		intDeck = loadDeck();
@@ -80,6 +80,11 @@ public class CPTtools{
 			SwappedHand(con, intHand, intDeck, strSwap);
 		}
 		
+		// used to calculate results from hand
+		int intUserMoneyResult;
+		intUserMoneyResult = Result(con, intUserBet, intHand);
+		System.out.println(intUserMoneyResult);
+		
 		// TEMPORARY RETURN
 		con.sleep(5000);
 		MainScreen(con);
@@ -87,7 +92,6 @@ public class CPTtools{
 	
 	// used to initialize deck
 	public static int[][] loadDeck(){
-		// initialize deck
 		int intDeck[][];
 		intDeck = new int[52][3];
 		
@@ -152,7 +156,7 @@ public class CPTtools{
 		}
 			intHand = sortHand(intHand);
 		for(intCountHand = 0; intCountHand < 5; intCountHand++){
-			// for showing card value
+			// used to show card value
 			con.print(intCountHand+1+" - ");
 			if(intHand[intCountHand][0] == 1){
 				con.print("A");
@@ -168,7 +172,7 @@ public class CPTtools{
 			
 			con.print(" of ");
 			
-			// for showing card suit
+			// used to show card suit
 			if(intHand[intCountHand][1] == 1){
 				con.print("diamonds");
 			}else if(intHand[intCountHand][1] == 2){
@@ -257,5 +261,73 @@ public class CPTtools{
 			
 			con.println("");
 		}
+	}
+
+	// used to calculate result
+	public static int Result(Console con, int intUserBet, int intHand[][]){
+		int intUserMoneyResult = 0;
+		
+		// used to extract values and suits from your hand
+		int intCardValue[];
+		intCardValue = new int[5];
+		int intSuitValue[];
+		intSuitValue = new int[5];
+		int intCount;
+		
+		for(intCount = 0; intCount < 5; intCount++){
+			intCardValue[intCount] = intHand[intCount][0];
+			intSuitValue[intCount] = intHand[intCount][1];
+		}
+		
+		// used to count the frequencies of card value
+		int intValueCount[];
+		intValueCount = new int[13];
+		
+		for(intCount = 0; intCount < 5; intCount++){
+			intValueCount[intCardValue[intCount]-1]++; // adds one to the card value each time it appeared
+		}
+		
+		// used to check for pairs, three of a kind, and four of a kind
+		int intPairCount = 0;
+		boolean blnThreeCount = false;
+		boolean blnFourCount = false;
+		
+		
+		for(intCount = 0; intCount < 13; intCount++){
+			if(intValueCount[intCount] == 2){
+				intPairCount++; // pair count cannot be boolean cuz there could be 2
+			}else if(intValueCount[intCount] == 3){
+				blnThreeCount = true;
+			}else if(intValueCount[intCount] == 4){
+				blnFourCount = true;
+			}
+		}
+		
+		// used to check if its jacks or better
+		boolean blnJacks = false;
+		
+		if(intValueCount[0] == 2||intValueCount[10] == 2||intValueCount[11] == 2||intValueCount[12] == 2){
+			blnJacks = true;
+		}
+		
+		System.out.println(intPairCount+""+blnThreeCount+""+blnFourCount);
+		
+		// used for payout 
+		if(blnJacks  == true){ // jacks or better
+			intUserMoneyResult = 1 * intUserBet;
+			con.println(intUserMoneyResult);
+		}else if(intPairCount == 2){ // two pairs
+			intUserMoneyResult = 2 * intUserBet;
+			con.println(intUserMoneyResult);
+		}else if(blnThreeCount == true){ // three of a kind
+			intUserMoneyResult = 3 * intUserBet;
+			con.println(intUserMoneyResult);
+		}else if(blnFourCount == true){ // four of a kind
+			intUserMoneyResult = 25 * intUserBet;
+			con.println(intUserMoneyResult);
+		}
+		
+		
+		return intUserMoneyResult;
 	}
 }
