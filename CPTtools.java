@@ -46,14 +46,15 @@ public class CPTtools{
 			}else{
 				intUserMoney = 1000;
 			}
-			
-			System.out.println("TEST MONEY VALUE: "+intUserMoney);
 			PlayScreen(con, intUserMoney);
 		}
 	}
 	
 	// play screen
 	public static void PlayScreen(Console con, int intUserMoney){
+		// printing amount of money
+		con.println("You have: $"+intUserMoney);
+		
 		// preparing the deck
 		int intDeck[][];
 		intDeck = loadDeck();
@@ -62,6 +63,11 @@ public class CPTtools{
 		int intUserBet = 0;
 		con.println("What is your bet?");
 		intUserBet = con.readInt();
+		
+		// bet cannot exceed users money
+		if(intUserBet > intUserMoney){
+			intUserBet = intUserMoney;
+		}
 		
 		System.out.println("TEST BET VALUE: "+intUserBet);
 		
@@ -85,9 +91,23 @@ public class CPTtools{
 		intUserMoneyResult = Result(con, intUserBet, intHand);
 		System.out.println(intUserMoneyResult);
 		
-		// TEMPORARY RETURN
-		con.sleep(5000);
-		MainScreen(con);
+		intUserMoney = intUserMoney + intUserMoneyResult;
+		
+		// show result either won or lost
+		if(intUserMoneyResult < 0){
+			con.println("You lose! You currently have $"+intUserMoney);
+		}else{
+			con.println("You win! You currently have $"+intUserMoney);
+		}
+		
+		// ask if continue
+		con.println("Continue? (Y or N)");
+		char chrContinue = con.getChar();
+		if(chrContinue == 'y' || chrContinue == 'Y'){
+			PlayScreen(con, intUserMoney);
+		}else{
+			MainScreen(con);
+		}
 	}
 	
 	// used to initialize deck
@@ -275,13 +295,13 @@ public class CPTtools{
 		int intCount;
 		
 		for(intCount = 0; intCount < 5; intCount++){
-			intCardValue[intCount] = intHand[intCount][0];
-			intSuitValue[intCount] = intHand[intCount][1];
+			intCardValue[intCount] = intHand[intCount][0]; // extract value from hand
+			intSuitValue[intCount] = intHand[intCount][1]; // extract suit from hand
 		}
 		
 		// used to count the frequencies of card value
 		int intValueCount[];
-		intValueCount = new int[13];
+		intValueCount = new int[13]; // for the 13 card values
 		
 		for(intCount = 0; intCount < 5; intCount++){
 			intValueCount[intCardValue[intCount]-1]++; // adds one to the card value each time it appeared
@@ -294,11 +314,11 @@ public class CPTtools{
 		
 		
 		for(intCount = 0; intCount < 13; intCount++){
-			if(intValueCount[intCount] == 2){
+			if(intValueCount[intCount] == 2){ // add one pair if a value appeared twice
 				intPairCount++; // pair count cannot be boolean cuz there could be 2
-			}else if(intValueCount[intCount] == 3){
+			}else if(intValueCount[intCount] == 3){ // add one pair if a value appeared three times
 				blnThreeCount = true;
-			}else if(intValueCount[intCount] == 4){
+			}else if(intValueCount[intCount] == 4){ // add one pair if a value appeared four times
 				blnFourCount = true;
 			}
 		}
@@ -306,25 +326,119 @@ public class CPTtools{
 		// used to check if its jacks or better
 		boolean blnJacks = false;
 		
-		if(intValueCount[0] == 2||intValueCount[10] == 2||intValueCount[11] == 2||intValueCount[12] == 2){
+		if(intValueCount[0] == 2||intValueCount[10] == 2||intValueCount[11] == 2||intValueCount[12] == 2){ // jacks if A or J or Q or K appeared as a pair
 			blnJacks = true;
 		}
 		
 		System.out.println(intPairCount+""+blnThreeCount+""+blnFourCount);
 		
+		// used to sort card value for checking if its a straight or not
+		int intTemp;
+		int intCount01;
+		int intCount02;
+
+		for (intCount01 = 0; intCount01 < 5 - 1; intCount01++) {
+			for (intCount02 = 0; intCount02 < 5 - 1; intCount02++) {
+				if (intCardValue[intCount02] > intCardValue[intCount02 + 1]) {
+					intTemp = intCardValue[intCount02];
+					intCardValue[intCount02] = intCardValue[intCount02 + 1];
+					intCardValue[intCount02 + 1] = intTemp;
+				}
+			}
+		}
+		
+		// used to check if its a straight or not
+		int intCount03;
+		int intIsStraight = 0;
+		boolean blnStraight = false;
+		boolean blnRoyalStraight = false;
+		
+		for (intCount03 = 0; intCount03 < 4; intCount03++) {
+			if (intCardValue[intCount03] + 1 == intCardValue[intCount03 + 1]) { // if previous sorted value + 1 is equal to the next one, then add 1 to the counter
+				intIsStraight++;
+				System.out.println(intIsStraight);
+			}
+		}
+		
+		if(intIsStraight == 4){ // if the counter maxs out, then its a straight
+			blnStraight = true;
+			System.out.println("STRAIGHT");
+		}
+		
+		// used to check if its royal flush
+		
+		if (intCardValue[0] == 1 && intCardValue[0] == 10 && intCardValue[0] == 11 && intCardValue[0] == 12 && intCardValue[0] == 13) { 
+			blnRoyalStraight = true;
+			System.out.println("ROYAL STRAIGHT");
+		}
+	
+		
+		// used to check for flush
+		int intFlushCount = 0;
+		int intIsFlush = 0;
+		boolean blnFlush = false;
+		
+		
+		for (intFlushCount = 0; intFlushCount < 4; intFlushCount++) {
+			if (intSuitValue[intFlushCount] == intSuitValue[intFlushCount + 1]) { // if previous sorted suit is equal to the next one, then add 1 to the counter
+				intIsFlush++;
+				System.out.println(intIsFlush);
+			}
+		}
+		
+		if(intIsFlush == 4){ // if the counter maxs out, then its a straight
+			blnFlush = true;
+			System.out.println("FLUSH");
+		}
+		
 		// used for payout 
-		if(blnJacks  == true){ // jacks or better
-			intUserMoneyResult = 1 * intUserBet;
-			con.println(intUserMoneyResult);
-		}else if(intPairCount == 2){ // two pairs
-			intUserMoneyResult = 2 * intUserBet;
-			con.println(intUserMoneyResult);
-		}else if(blnThreeCount == true){ // three of a kind
-			intUserMoneyResult = 3 * intUserBet;
-			con.println(intUserMoneyResult);
+		if(blnFlush == true && blnRoyalStraight == true){ // royal flush
+			intUserMoneyResult = 800 * intUserBet;
+			con.print("ROYAL FLUSH! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(blnFlush == true && blnStraight == true){ // straight flush
+			intUserMoneyResult = 50 * intUserBet;
+			con.print("STRAIGHT FLUSH! ");
+			con.print(intUserMoneyResult);
+			con.println("");
 		}else if(blnFourCount == true){ // four of a kind
 			intUserMoneyResult = 25 * intUserBet;
-			con.println(intUserMoneyResult);
+			con.print("FOUR OF A KIND! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(blnThreeCount == true && intPairCount == 1){ // full house
+			intUserMoneyResult = 9 * intUserBet;
+			con.print("FULL HOUSE! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(blnFlush == true){ // flush
+			intUserMoneyResult = 6 * intUserBet;
+			con.print("FLUSH! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(blnStraight == true || blnRoyalStraight == true){ // straight
+			intUserMoneyResult = 4 * intUserBet;
+			con.print("STRAIGHT! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(blnThreeCount == true){ // three of a kind
+			intUserMoneyResult = 3 * intUserBet;
+			con.print("THREE OF A KIND! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(intPairCount == 2){ // two pairs
+			intUserMoneyResult = 2 * intUserBet;
+			con.print("TWO PAIRS! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else if(blnJacks  == true){ // jacks or better
+			intUserMoneyResult = 1 * intUserBet;
+			con.print("JACKS OR BETTER! ");
+			con.print(intUserMoneyResult);
+			con.println("");
+		}else{
+			intUserMoneyResult = -1 * intUserBet;
 		}
 		
 		
