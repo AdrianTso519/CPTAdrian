@@ -30,32 +30,30 @@ public class CPTtools{
 			con.sleep(5000);
 			MainScreen(con);
 		}else if(chrInputMain == 'p' || chrInputMain == 'P'){
+			con.clear();
+			con.setDrawColor(Color.BLACK);
+			con.fillRect(0,0,1280,720);
+			
+			// ask for username
+			String strUserName;
+			con.println("What is your name?");
+			strUserName = con.readLine();
+			
+			// giving out money to player
+			int intUserMoney = 0;
+			if(strUserName.equalsIgnoreCase("statitan")){
+				intUserMoney = 100000;
+			}else{
+				intUserMoney = 1000;
+			}
+			
+			System.out.println("TEST MONEY VALUE: "+intUserMoney);
 			PlayScreen(con);
 		}
 	}
 	
 	// play screen
 	public static void PlayScreen(Console con){
-		con.println("TEST");
-		con.clear();
-		con.setDrawColor(Color.BLACK);
-		con.fillRect(0,0,1280,720);
-		
-		// ask for username
-		String strUserName;
-		con.println("What is your name?");
-		strUserName = con.readLine();
-		
-		// giving out money to player
-		int intUserMoney = 0;
-		if(strUserName.equalsIgnoreCase("statitan")){
-			intUserMoney = 100000;
-		}else{
-			intUserMoney = 1000;
-		}
-		
-		System.out.println("TEST MONEY VALUE: "+intUserMoney);
-		
 		// preparing the deck
 		int intDeck[][];
 		intDeck = loadDeck();
@@ -151,17 +149,19 @@ public class CPTtools{
 		for(intCountHand = 0; intCountHand < 5; intCountHand++){
 			intHand[intCountHand][0] = intDeck[intCountHand][0];
 			intHand[intCountHand][1] = intDeck[intCountHand][1];
-			
+		}
+			intHand = sortHand(intHand);
+		for(intCountHand = 0; intCountHand < 5; intCountHand++){
 			// for showing card value
 			con.print(intCountHand+1+" - ");
 			if(intHand[intCountHand][0] == 1){
-				con.print("ace");
+				con.print("A");
 			}else if(intHand[intCountHand][0] == 11){
-				con.print("jack");
+				con.print("J");
 			}else if(intHand[intCountHand][0] == 12){
-				con.print("queen");
+				con.print("Q");
 			}else if(intHand[intCountHand][0] == 13){
-				con.print("king");
+				con.print("K");
 			}else{
 				con.print(intHand[intCountHand][0]);
 			}
@@ -183,18 +183,79 @@ public class CPTtools{
 		}
 	}
 
+	// used to sort hand
+	public static int[][] sortHand(int intHand[][]) {
+		int intTemp[] = new int[2];
+		int intCount;
+		int intCount2;
+		int intCount3;
+
+		for (intCount2 = 0; intCount2 < 5 - 1; intCount2++) {
+			for (intCount = 0; intCount < 5 - 1; intCount++) {
+				if (intHand[intCount][0] > intHand[intCount + 1][0]) {
+					for (intCount3 = 0; intCount3 < 2; intCount3++) {
+						intTemp[intCount3] = intHand[intCount][intCount3];
+						intHand[intCount][intCount3] = intHand[intCount + 1][intCount3];
+						intHand[intCount + 1][intCount3] = intTemp[intCount3];
+					}
+				}
+			}
+		}
+		return intHand;
+	}
+
 	// used to swap hand
 	public static void SwappedHand(Console con, int intHand[][], int intDeck[][], String strSwap){
 		int intLength = strSwap.length();
-		System.out.println(intLength);
-		String strSwapCardAmount[];
-		strSwapCardAmount = new String[intLength];
-		
+		String strSwapCardNumber;
+		int intSwapCardNumber[];
+		intSwapCardNumber = new int[intLength];
+
 		// used to get individual digits of the string
 		int intCount1;
-		for(intCount1 = 0; intCount1 < 4; intCount1++){
-			strSwapCardAmount[intCount1] = strSwap.substring(intCount1, intCount1+1);
-			System.out.println(strSwapCardAmount[intCount1]);
+		for(intCount1 = 0; intCount1 < intLength; intCount1++){
+			strSwapCardNumber = strSwap.substring(intCount1, intCount1+1);
+			intSwapCardNumber[intCount1] = Integer.parseInt(strSwapCardNumber) - 1;
+		}
+
+		// used to swap selected cards
+		for(intCount1 = 0; intCount1 < intLength; intCount1++){
+			intHand[intSwapCardNumber[intCount1]][0] = intDeck[5 + intCount1][0];
+			intHand[intSwapCardNumber[intCount1]][1] = intDeck[5 + intCount1][1];
+		}
+		intHand = sortHand(intHand);
+		// print entire updated hand
+		int intCountHand;
+		for(intCountHand = 0; intCountHand < 5; intCountHand++){
+			con.print(intCountHand+1+" - ");
+			
+			// show card value
+			if(intHand[intCountHand][0] == 1){
+				con.print("A");
+			}else if(intHand[intCountHand][0] == 11){
+				con.print("J");
+			}else if(intHand[intCountHand][0] == 12){
+				con.print("Q");
+			}else if(intHand[intCountHand][0] == 13){
+				con.print("K");
+			}else{
+				con.print(intHand[intCountHand][0]);
+			}
+
+			con.print(" of ");
+
+			// show card suit
+			if(intHand[intCountHand][1] == 1){
+				con.print("diamonds");
+			}else if(intHand[intCountHand][1] == 2){
+				con.print("clubs");
+			}else if(intHand[intCountHand][1] == 3){
+				con.print("hearts");
+			}else if(intHand[intCountHand][1] == 4){
+				con.print("spades");
+			}
+			
+			con.println("");
 		}
 	}
 }
