@@ -6,18 +6,26 @@ import java.awt.Font;
 public class CPTtools{
 	// main screen
 	public static void MainScreen(Console con){
-		// BufferedImage imgMain = con.loadImage("Cover.png");
-		// TEMPORARY COVER IMAGE
-		// con.drawImage(imgMain, 0, 0);
-		con.println("");
+		// drawing main screen
+		int intXLogo = -250;
+		int intXButtons = 1364;
 		
-		// drawing main background
-		con.setDrawColor(new Color(24, 28, 20));
-			con.fillRect(0,0,1280,720);
+		BufferedImage imgMain = con.loadImage("Cover.png");
+		BufferedImage imgLogo = con.loadImage("Logo.png");
+		BufferedImage imgButtons = con.loadImage("Buttons.png");
+		while(intXLogo <= 250){			
+			con.drawImage(imgMain, 0, 0);
+			con.println("");
+			con.drawImage(imgLogo, intXLogo, 247);
+			con.drawImage(imgButtons, intXButtons, 169);
+			intXLogo = intXLogo + 10;
+			intXButtons = intXButtons - 10;
 			
-		// drawing buttons
-		con.setDrawColor(new Color(105, 117, 101));
-		fillRoundRect(int intX, int intY, int intWidth, int intHeight, int intArcWidth, int intArcHeight);
+			// waiting for 17 ms before looping
+			con.sleep(8);
+			
+		}
+
 		
 		// con.println("Video Poker");
 		// con.println("Play (P)");
