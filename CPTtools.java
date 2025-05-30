@@ -6,11 +6,19 @@ import java.awt.Font;
 public class CPTtools{
 	// main screen
 	public static void MainScreen(Console con){
-		BufferedImage imgMain = con.loadImage("Cover.png");
+		// BufferedImage imgMain = con.loadImage("Cover.png");
 		// TEMPORARY COVER IMAGE
-		con.drawImage(imgMain, 0, 0);
+		// con.drawImage(imgMain, 0, 0);
 		con.println("");
-		con.clear();
+		
+		// drawing main background
+		con.setDrawColor(new Color(24, 28, 20));
+			con.fillRect(0,0,1280,720);
+			
+		// drawing buttons
+		con.setDrawColor(new Color(105, 117, 101));
+		fillRoundRect(int intX, int intY, int intWidth, int intHeight, int intArcWidth, int intArcHeight);
+		
 		// con.println("Video Poker");
 		// con.println("Play (P)");
 		// con.println("View Leaderboard (L)");
@@ -46,12 +54,57 @@ public class CPTtools{
 			}else{
 				intUserMoney = 1000;
 			}
-			PlayScreen(con, intUserMoney);
+			PlayScreen(con, intUserMoney, strUserName);
+		}else if(chrInputMain == 'l' || chrInputMain == 'L'){
+			con.clear();
+			con.setDrawColor(Color.BLACK);
+			con.fillRect(0,0,1280,720);
+			con.println("");
+			LeaderboardScreen(con);
 		}
 	}
 	
+	// leaderboard screen
+	public static void LeaderboardScreen(Console con){
+		// adding input from the txt file
+		TextInputFile LBoard = new TextInputFile("leaderboard.txt");
+		String strLBoard[];
+		int intLBoard[];
+		String strName = "";
+		String strScore = "";
+		int intLBoardCount = 0;
+		
+		// checking the length of the file in order to determine the number of rows of the array
+		while(LBoard.eof() == false){
+			strName = LBoard.readLine();
+			strScore = LBoard.readLine();
+			intLBoardCount++;
+			System.out.println(intLBoardCount);
+		}
+		
+		LBoard.close();
+		
+		// setting up the array
+		strLBoard = new String[intLBoardCount];
+		intLBoard = new int[intLBoardCount];
+		
+		// reading actual data from input file
+		TextInputFile LBoard2 = new TextInputFile("leaderboard.txt");
+		int intCount;
+		
+		for(intCount = 0; intCount < intLBoardCount; intCount++){
+			strLBoard[intCount] = LBoard2.readLine();
+			intLBoard[intCount] = LBoard2.readInt();
+			System.out.println(strLBoard[intCount]);
+			System.out.println(intLBoard[intCount]);
+		}
+		
+		// sorting data from highest score to lowest
+		
+	}
+	
 	// play screen
-	public static void PlayScreen(Console con, int intUserMoney){
+	public static void PlayScreen(Console con, int intUserMoney, String strUserName){
 		// printing amount of money
 		con.println("You have: $"+intUserMoney);
 		
@@ -101,19 +154,26 @@ public class CPTtools{
 		}
 		
 		// ask if continue
+		TextOutputFile LBoard = new TextOutputFile("leaderboard.txt", true);
 		if(intUserMoney == 0){
 			con.println("Game Over!");
+			LBoard.println(strUserName);
+			LBoard.println(intUserMoney);
 			con.sleep(5000);
 			MainScreen(con);
 		}else{
 			con.println("Continue? (Y or N)");
 			char chrContinue = con.getChar();
 			if(chrContinue == 'y' || chrContinue == 'Y'){
-				PlayScreen(con, intUserMoney);
+				PlayScreen(con, intUserMoney, strUserName);
 			}else{
+				LBoard.println(strUserName);
+				LBoard.println(intUserMoney);
 				MainScreen(con);
 			}
 		}
+		
+		LBoard.close();
 	}
 	
 	// used to initialize deck
