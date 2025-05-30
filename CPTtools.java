@@ -6,27 +6,12 @@ import java.awt.Font;
 public class CPTtools{
 	// main screen
 	public static void MainScreen(Console con){
-		// drawing main screen
-		int intXLogo = -250;
-		int intXButtons = 1364;
-		
+		// drawing main screen	
+		con.repaint();	
 		BufferedImage imgMain = con.loadImage("Cover.png");
-		BufferedImage imgLogo = con.loadImage("Logo.png");
-		BufferedImage imgButtons = con.loadImage("Buttons.png");
-		while(intXLogo <= 250){			
-			con.drawImage(imgMain, 0, 0);
-			con.println("");
-			con.drawImage(imgLogo, intXLogo, 247);
-			con.drawImage(imgButtons, intXButtons, 169);
-			intXLogo = intXLogo + 10;
-			intXButtons = intXButtons - 10;
-			
-			// waiting for 17 ms before looping
-			con.sleep(8);
-			
-		}
-
-		
+		con.drawImage(imgMain, 0, 0);
+		con.repaint();
+				
 		// con.println("Video Poker");
 		// con.println("Play (P)");
 		// con.println("View Leaderboard (L)");
@@ -36,19 +21,42 @@ public class CPTtools{
 		
 		// reacting to different keys being clicked
 		if(chrInputMain == 'q' || chrInputMain == 'Q'){
-			con.closeConsole();
+			BufferedImage imgQuit = con.loadImage("Quit.png");
+			con.clear();
+			con.drawImage(imgQuit, 0, 0);
+			con.repaint();
+			
+			char chrInputQuit = con.getChar();
+			if(chrInputQuit == 'y' || chrInputQuit == 'Y'){
+				con.closeConsole();
+			}else{
+				con.drawImage(imgMain, 0, 0);
+				con.repaint();
+				MainScreen(con);
+			}
 		}else if(chrInputMain == 's' || chrInputMain == 'S'){
 			con.clear();
-			con.setDrawColor(Color.BLACK);
-			con.fillRect(0,0,1280,720);
-			con.println("What's the difference between a large pizza and a poker player?");
-			con.println("A large pizza can feed a family of four, a poker player can't.");
-			con.sleep(5000);
-			MainScreen(con);
+			BufferedImage imgBG = con.loadImage("BG.png");
+			BufferedImage imgJoke = con.loadImage("Joke.png");
+			con.drawImage(imgBG, 0, 0);
+			con.drawImage(imgJoke, 84, 199);
+			con.repaint();
+			char chrInputSecret = con.getChar();
+			if(chrInputSecret == 'r' || chrInputSecret == 'R'){
+				con.drawImage(imgMain, 0, 0);
+				con.repaint();
+				MainScreen(con);
+			}else{
+				con.drawImage(imgMain, 0, 0);
+				con.repaint();
+				MainScreen(con);
+			}
+
 		}else if(chrInputMain == 'p' || chrInputMain == 'P'){
 			con.clear();
-			con.setDrawColor(Color.BLACK);
-			con.fillRect(0,0,1280,720);
+			BufferedImage imgBG = con.loadImage("BG.png");
+			con.drawImage(imgBG, 0, 0);
+			
 			
 			// ask for username
 			String strUserName;
