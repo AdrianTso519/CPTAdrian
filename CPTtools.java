@@ -101,12 +101,18 @@ public class CPTtools{
 		}
 		
 		// ask if continue
-		con.println("Continue? (Y or N)");
-		char chrContinue = con.getChar();
-		if(chrContinue == 'y' || chrContinue == 'Y'){
-			PlayScreen(con, intUserMoney);
-		}else{
+		if(intUserMoney == 0){
+			con.println("Game Over!");
+			con.sleep(5000);
 			MainScreen(con);
+		}else{
+			con.println("Continue? (Y or N)");
+			char chrContinue = con.getChar();
+			if(chrContinue == 'y' || chrContinue == 'Y'){
+				PlayScreen(con, intUserMoney);
+			}else{
+				MainScreen(con);
+			}
 		}
 	}
 	
