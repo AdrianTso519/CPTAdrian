@@ -20,63 +20,91 @@ public class CPTtools{
 		char chrInputMain = con.getChar();
 		
 		// reacting to different keys being clicked
-		if(chrInputMain == 'q' || chrInputMain == 'Q'){
-			BufferedImage imgQuit = con.loadImage("Quit.png");
-			con.clear();
-			con.drawImage(imgQuit, 0, 0);
-			con.repaint();
-			
-			char chrInputQuit = con.getChar();
-			if(chrInputQuit == 'y' || chrInputQuit == 'Y'){
-				con.closeConsole();
-			}else{
-				con.drawImage(imgMain, 0, 0);
+		while(chrInputMain != 'q' || chrInputMain != 'Q' || chrInputMain != 'p' || chrInputMain != 'P' ||chrInputMain != 's' || chrInputMain != 'S' ||chrInputMain != 'l' || chrInputMain != 'L' ||chrInputMain != 'h' || chrInputMain != 'H' ){
+			if(chrInputMain == 'q' || chrInputMain == 'Q'){
+				BufferedImage imgQuit = con.loadImage("Quit.png");
+				con.clear();
+				con.drawImage(imgQuit, 0, 0);
 				con.repaint();
-				MainScreen(con);
-			}
-		}else if(chrInputMain == 's' || chrInputMain == 'S'){
-			con.clear();
-			BufferedImage imgBG = con.loadImage("BG.png");
-			BufferedImage imgJoke = con.loadImage("Joke.png");
-			con.drawImage(imgBG, 0, 0);
-			con.drawImage(imgJoke, 84, 199);
-			con.repaint();
-			char chrInputSecret = con.getChar();
-			if(chrInputSecret == 'r' || chrInputSecret == 'R'){
-				con.drawImage(imgMain, 0, 0);
+				
+				char chrInputQuit = con.getChar();
+				if(chrInputQuit == 'y' || chrInputQuit == 'Y'){
+					con.closeConsole();
+				}else{
+					con.drawImage(imgMain, 0, 0);
+					con.repaint();
+					MainScreen(con);
+				}
+			}else if(chrInputMain == 's' || chrInputMain == 'S'){
+				con.clear();
+				BufferedImage imgJoke = con.loadImage("Joke.png");
+				con.drawImage(imgJoke, 0, 0);
 				con.repaint();
-				MainScreen(con);
-			}else{
-				con.drawImage(imgMain, 0, 0);
-				con.repaint();
-				MainScreen(con);
-			}
+				char chrInputSecret = con.getChar();
+				while(chrInputSecret != 'c' || chrInputSecret != 'C'){
+					if(chrInputSecret == 'c' || chrInputSecret == 'C'){
+						con.drawImage(imgMain, 0, 0);
+						con.repaint();
+						MainScreen(con);
+					}else{
+						chrInputSecret = con.getChar();
+					}
+				}
 
-		}else if(chrInputMain == 'p' || chrInputMain == 'P'){
-			con.clear();
-			BufferedImage imgBG = con.loadImage("BG.png");
-			con.drawImage(imgBG, 0, 0);
-			
-			
-			// ask for username
-			String strUserName;
-			con.println("What is your name?");
-			strUserName = con.readLine();
-			
-			// giving out money to player
-			int intUserMoney = 0;
-			if(strUserName.equalsIgnoreCase("statitan")){
-				intUserMoney = 100000;
+			}else if(chrInputMain == 'p' || chrInputMain == 'P'){
+				con.clear();
+				BufferedImage imgBG = con.loadImage("BG.png");
+				con.drawImage(imgBG, 0, 0);
+				
+				
+				// ask for username
+				String strUserName;
+				con.println("What is your name?");
+				strUserName = con.readLine();
+				
+				// giving out money to player
+				int intUserMoney = 0;
+				if(strUserName.equalsIgnoreCase("statitan")){
+					intUserMoney = 100000;
+				}else{
+					intUserMoney = 1000;
+				}
+				PlayScreen(con, intUserMoney, strUserName);
+			}else if(chrInputMain == 'l' || chrInputMain == 'L'){
+				con.clear();
+				BufferedImage imgLBoard = con.loadImage("Leaderboard.png");
+				con.drawImage(imgLBoard, 0, 0);
+				con.repaint();
+				LeaderboardScreen(con);
+			}else if(chrInputMain == 'h' || chrInputMain == 'H'){
+				con.clear();
+				BufferedImage imgHelp1 = con.loadImage("Help 1.png");
+				BufferedImage imgHelp2 = con.loadImage("Help 2.png");
+				con.drawImage(imgHelp1, 0, 0);
+				con.repaint();
+				char chrInputHelp = con.getChar();
+				while(chrInputHelp != 'n' || chrInputHelp != 'N'){
+					if(chrInputHelp == 'n' || chrInputHelp == 'N'){
+						con.clear();
+						con.drawImage(imgHelp2, 0, 0);
+						con.repaint();
+						chrInputHelp = con.getChar();
+						while(chrInputHelp != 'c' || chrInputHelp != 'C'){
+							if(chrInputHelp == 'c' || chrInputHelp == 'C'){
+								con.drawImage(imgMain, 0, 0);
+								con.repaint();
+								MainScreen(con);
+							}else{
+								chrInputHelp = con.getChar();
+							}
+						}
+					}else{
+						chrInputHelp = con.getChar();
+					}
+				}
 			}else{
-				intUserMoney = 1000;
+				chrInputMain = con.getChar();
 			}
-			PlayScreen(con, intUserMoney, strUserName);
-		}else if(chrInputMain == 'l' || chrInputMain == 'L'){
-			con.clear();
-			con.setDrawColor(Color.BLACK);
-			con.fillRect(0,0,1280,720);
-			con.println("");
-			LeaderboardScreen(con);
 		}
 	}
 	
@@ -116,7 +144,51 @@ public class CPTtools{
 		}
 		
 		// sorting data from highest score to lowest
+		int intNext = 0;
+		for (intCount = 0; intCount < intLBoardCount - 1; intCount++) {
+			for (intNext = intCount + 1; intNext < intLBoardCount; intNext++) {
+				if (intLBoard[intCount] < intLBoard[intNext]) {
+					// swapping score (money)
+					int intTempScore = intLBoard[intCount];
+					intLBoard[intCount] = intLBoard[intNext];
+					intLBoard[intNext] = intTempScore;
+
+					// swapping names
+					String strTempName = strLBoard[intCount];
+					strLBoard[intCount] = strLBoard[intNext];
+					strLBoard[intNext] = strTempName;
+				}
+			}
+		}
 		
+		// printing the name and stuff to the leaderboard
+		// for text printing
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);
+		con.setDrawColor(Color.WHITE);
+		int intY = 115;
+		con.drawString("", 0, 0);
+		con.repaint();
+		for(intCount = 0; intCount < intLBoardCount && intCount < 10; intCount++){
+			con.drawString(Integer.toString(intCount+1), 448, intY);
+			con.drawString(strLBoard[intCount], 506, intY);
+			con.drawString("$"+Integer.toString(intLBoard[intCount]), 718, intY);
+			intY = intY + 47;
+			con.repaint();
+		}
+		
+		// for closing screen
+		char chrInputSecret = con.getChar();
+		BufferedImage imgMain = con.loadImage("Cover.png");
+		while(chrInputSecret != 'r' || chrInputSecret != 'R'){
+			if(chrInputSecret == 'r' || chrInputSecret == 'R'){
+				con.drawImage(imgMain, 0, 0);
+				con.repaint();
+				MainScreen(con);
+			}else{
+				chrInputSecret = con.getChar();
+			}
+		}
 	}
 	
 	// play screen
@@ -185,6 +257,7 @@ public class CPTtools{
 			}else{
 				LBoard.println(strUserName);
 				LBoard.println(intUserMoney);
+				con.clear();
 				MainScreen(con);
 			}
 		}
