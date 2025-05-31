@@ -458,40 +458,51 @@ public class CPTtools{
 		
 		// used to calculate results from hand
 		int intUserMoneyResult;
-		intUserMoneyResult = Result(con, intUserBet, intHand);
+		intUserMoneyResult = Result(con, intUserBet, intHand, intUserMoney);
 		System.out.println(intUserMoneyResult);
 		
 		intUserMoney = intUserMoney + intUserMoneyResult;
-		
-		// show result either won or lost
-		if(intUserMoneyResult < 0){
-			con.println("You lose! You currently have $"+intUserMoney);
-		}else{
-			con.println("You win! You currently have $"+intUserMoney);
+		BufferedImage imgResult2 = con.loadImage("Result2.png");
+		con.clear();
+		if(intUserMoney != 0){
+			con.drawImage(imgResult2, 0, 0);
 		}
+		con.drawImage(imgMoney, 0, 0);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);
+		con.repaint();
 		
 		// ask if continue
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 29);
+		con.setDrawColor(Color.WHITE);
+		con.setDrawFont(fntFont);
 		TextOutputFile LBoard = new TextOutputFile("leaderboard.txt", true);
-		if(intUserMoney == 0){
-			con.println("Game Over!");
+		BufferedImage imgResult = con.loadImage("Result.png");
+		if(intUserMoney != 0){
+			char chrInputMain = con.getChar();
+			while(chrInputMain != '\n' || chrInputMain != 27){
+				if(chrInputMain == '\n'){
+					con.clear();
+					con.repaint();
+					PlayScreen(con, intUserMoney, strUserName);
+				}else if(chrInputMain == 27){
+					LBoard.println(strUserName);
+					LBoard.println(intUserMoney);
+					con.clear();
+					MainScreen(con);
+				}else{
+					chrInputMain = con.getChar();
+				}
+			}			
+			LBoard.close();
+		}else{
+			con.drawString("Game Over...", 556, 260);
+			con.drawString("Returning to Main Screen...", 470, 429);
 			LBoard.println(strUserName);
 			LBoard.println(intUserMoney);
-			con.sleep(5000);
+			con.sleep(2000);
 			MainScreen(con);
-		}else{
-			con.println("Continue? (Y or N)");
-			char chrContinue = con.getChar();
-			if(chrContinue == 'y' || chrContinue == 'Y'){
-				PlayScreen(con, intUserMoney, strUserName);
-			}else{
-				LBoard.println(strUserName);
-				LBoard.println(intUserMoney);
-				con.clear();
-				MainScreen(con);
-			}
 		}
-		
-		LBoard.close();
 	}
 	
 	// used to initialize deck
@@ -861,7 +872,7 @@ public class CPTtools{
 	}
 
 	// used to calculate result
-	public static int Result(Console con, int intUserBet, int intHand[][]){
+	public static int Result(Console con, int intUserBet, int intHand[][], int intUserMoney){
 		int intUserMoneyResult = 0;
 		
 		// used to extract values and suits from your hand
@@ -968,56 +979,131 @@ public class CPTtools{
 			System.out.println("FLUSH");
 		}
 		
+		// preparing images and stuff
+		BufferedImage imgDark = con.loadImage("Dark.png");
+		BufferedImage imgBet = con.loadImage("Bet.png");
+		BufferedImage imgMoney = con.loadImage("Money.png");
+		BufferedImage imgBGUp = con.loadImage("BG Up.png");
+		BufferedImage imgResult = con.loadImage("Result.png");
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawColor(Color.WHITE);
+		con.setDrawFont(fntFont);	
+		con.drawImage(imgBGUp, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);	
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 29);
+		con.setDrawColor(Color.WHITE);
+		con.setDrawFont(fntFont);
+		con.sleep(1000);
+		
 		// used for payout 
 		if(blnFlush == true && blnRoyalStraight == true){ // royal flush
 			intUserMoneyResult = 800 * intUserBet;
-			con.print("ROYAL FLUSH! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("ROYAL FLUSH!", 550, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 120);
+			// con.print("ROYAL FLUSH! ");
 		}else if(blnFlush == true && blnStraight == true){ // straight flush
 			intUserMoneyResult = 50 * intUserBet;
-			con.print("STRAIGHT FLUSH! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("STRAIGHT FLUSH!", 529, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(blnFourCount == true){ // four of a kind
 			intUserMoneyResult = 25 * intUserBet;
-			con.print("FOUR OF A KIND! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("FOUR OF A KIND!", 526, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(blnThreeCount == true && intPairCount == 1){ // full house
 			intUserMoneyResult = 9 * intUserBet;
-			con.print("FULL HOUSE! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("FULL HOUSE!", 558, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(blnFlush == true){ // flush
 			intUserMoneyResult = 6 * intUserBet;
-			con.print("FLUSH! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("FLUSH!", 596, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(blnStraight == true || blnRoyalStraight == true){ // straight
 			intUserMoneyResult = 4 * intUserBet;
-			con.print("STRAIGHT! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("STRAIGHT!", 573, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(blnThreeCount == true){ // three of a kind
 			intUserMoneyResult = 3 * intUserBet;
-			con.print("THREE OF A KIND! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("THREE OF A KIND!", 524, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(intPairCount == 2){ // two pairs
 			intUserMoneyResult = 2 * intUserBet;
-			con.print("TWO PAIRS! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("TWO PAIRS!", 564, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else if(blnJacks  == true){ // jacks or better
 			intUserMoneyResult = 1 * intUserBet;
-			con.print("JACKS OR BETTER! ");
-			con.print(intUserMoneyResult);
-			con.println("");
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("YOU WIN!", 574, 243);
+			con.drawString("JACKS OR BETTER!", 529, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else{
 			intUserMoneyResult = -1 * intUserBet;
+			con.drawImage(imgBGUp, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgResult, 0, 0);
+			con.drawString("You lost...", 579, 243);
+			con.drawString("You got nothing...", 529, 280);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+			con.setDrawFont(fntFont);	
+			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}
-		
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawColor(Color.WHITE);
+		con.setDrawFont(fntFont);
+		con.repaint();
 		
 		return intUserMoneyResult;
 	}
