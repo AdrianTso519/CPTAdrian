@@ -77,7 +77,20 @@ public class CPTtools{
 				while(true){ // infinite loop
 					chrTyped = con.getChar();
 					if(chrTyped == '\n'){ // checking for enter
-						break;
+						if(!strUserName.equals("")){
+							break;
+						}else{
+							con.drawImage(imgName, 0, 0);
+							con.setDrawColor(Color.RED);
+							con.drawString("Invalid Name!", 534, 340);
+							con.repaint();
+							con.setDrawColor(Color.WHITE);
+							con.sleep(1200); 
+							con.drawImage(imgName, 0, 0);
+							con.repaint();
+							strUserName = ""; 
+							continue;
+						}
 					}
 					if(chrTyped == 8 && strUserName.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
 						strUserName = strUserName.substring(0, strUserName.length()-1);
@@ -90,6 +103,8 @@ public class CPTtools{
 						strUserName = strUserName + chrTyped;
 					}
 					con.clear();
+					con.drawImage(imgMain, 0, 0);
+					con.drawImage(imgDark, 0, 0);
 					con.drawImage(imgName, 0, 0);
 					con.drawString(strUserName, 534, 340);
 					con.repaint();
@@ -237,25 +252,16 @@ public class CPTtools{
 		// printing screen based on name input
 		con.clear();
 		BufferedImage imgDark = con.loadImage("Dark.png");
-		BufferedImage imgBet1 = con.loadImage("Bet1.png");
-		BufferedImage imgBet2 = con.loadImage("Bet2.png");
+		BufferedImage imgBet = con.loadImage("Bet.png");
+		BufferedImage imgMoney = con.loadImage("Money.png");
 		con.drawImage(imgPlay, 0, 0);
 		con.drawImage(imgDark, 0, 0);
+		con.drawImage(imgBet, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet:", 960, 30);
 		con.repaint();
 	
-		if(strUserName.equalsIgnoreCase("statitan")){
-			con.clear();
-			con.drawImage(imgPlay, 0, 0);
-			con.drawImage(imgDark, 0, 0);
-			con.drawImage(imgBet2, 0, 0);
-			con.repaint();
-		}else{
-			con.clear();
-			con.drawImage(imgPlay, 0, 0);
-			con.drawImage(imgDark, 0, 0);
-			con.drawImage(imgBet1, 0, 0);
-			con.repaint();
-		}
 		
 		// load font
 		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
@@ -282,25 +288,26 @@ public class CPTtools{
 						blnNumberic = false;
 					}
 				}
-				if(!strUserBet.equals("") && blnNumberic == false && strUserBet.matches("[0-9]+") && Integer.parseInt(strUserBet) > 0 && Integer.parseInt(strUserBet) <= intUserMoney){
+				if(!strUserBet.equals("") && blnNumberic == true && Integer.parseInt(strUserBet) > 0 && Integer.parseInt(strUserBet) <= intUserMoney){
 					break;
 				}else{
-					if(strUserName.equalsIgnoreCase("statitan")){
-						con.drawImage(imgBet2, 0, 0);
-					}else{
-						con.drawImage(imgBet1, 0, 0);
-					}
+					con.drawImage(imgPlay, 0, 0);
+					con.drawImage(imgDark, 0, 0);
+					con.drawImage(imgBet, 0, 0);
+					con.drawImage(imgMoney, 0, 0);
+					con.drawString("You have: $"+intUserMoney, 50, 30);
+					con.drawString("Your bet:", 960, 30);
 					con.setDrawColor(Color.RED);
 					con.drawString("Invalid Bet!", 534, 340);
 					con.repaint();
+					con.setDrawColor(Color.WHITE);
 					con.sleep(1200); 
-					if(strUserName.equalsIgnoreCase("statitan")){
-						con.clear();
-						con.drawImage(imgBet2, 0, 0);
-					}else{
-						con.clear();
-						con.drawImage(imgBet1, 0, 0);
-					}
+					con.drawImage(imgPlay, 0, 0);
+					con.drawImage(imgDark, 0, 0);
+					con.drawImage(imgBet, 0, 0);
+					con.drawImage(imgMoney, 0, 0);
+					con.drawString("You have: $"+intUserMoney, 50, 30);
+					con.drawString("Your bet:", 960, 30);
 					con.repaint();
 					strUserBet = ""; 
 					continue;
@@ -309,32 +316,36 @@ public class CPTtools{
 			con.setDrawColor(Color.WHITE);
 			if(chrTyped == 8 && strUserBet.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
 				strUserBet = strUserBet.substring(0, strUserBet.length()-1);
-				if(strUserName.equalsIgnoreCase("statitan")){
-					con.clear();
-					con.drawImage(imgBet2, 0, 0);
-					con.repaint();
-				}else{
-					con.clear();
-					con.drawImage(imgBet1, 0, 0);
-					con.repaint();
-				}
+				con.clear();
+				con.drawImage(imgPlay, 0, 0);
+				con.drawImage(imgDark, 0, 0);
+				con.drawImage(imgBet, 0, 0);
+				con.drawImage(imgMoney, 0, 0);
+				con.drawString("You have: $"+intUserMoney, 50, 30);
+				con.drawString("Your bet:", 960, 30);
+				con.repaint();
 				con.drawString("$"+strUserBet, 534, 340);
 			}
 			if(chrTyped != 8){
 				strUserBet = strUserBet + chrTyped;
-				if(strUserName.equalsIgnoreCase("statitan")){
-					con.clear();
-					con.drawImage(imgBet2, 0, 0);
-					con.repaint();
-				}else{
-					con.clear();
-					con.drawImage(imgBet1, 0, 0);
-					con.repaint();
-				}
+				con.clear();
+				con.drawImage(imgPlay, 0, 0);
+				con.drawImage(imgDark, 0, 0);
+				con.drawImage(imgBet, 0, 0);
+				con.drawImage(imgMoney, 0, 0);
+				con.drawString("You have: $"+intUserMoney, 50, 30);
+				con.drawString("Your bet:", 960, 30);
+				con.repaint();
 				con.drawString("$"+strUserBet, 534, 340);
 			}
 		}
 		intUserBet = Integer.parseInt(strUserBet);
+		con.clear();
+		con.drawImage(imgPlay, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);
+		con.repaint();
 		
 		System.out.println("TEST BET VALUE: "+intUserBet);
 		
@@ -343,14 +354,106 @@ public class CPTtools{
 		int intHand[][];
 		intHand = new int[5][2];
 		
-		InitialHand(con, intHand, intDeck);
+		InitialHand(con, intHand, intDeck, intUserMoney, intUserBet);
+		
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawColor(Color.WHITE);
+		con.setDrawFont(fntFont);		
 		
 		// ask to swap
-		String strSwap;
-		con.println("Which cards do you want to swap? (Ex. 124) (n for no)");
-		strSwap = con.readLine();
-		if(!strSwap.equalsIgnoreCase("n")){
-			SwappedHand(con, intHand, intDeck, strSwap);
+		BufferedImage imgSwapping = con.loadImage("Swapping.png");
+		BufferedImage imgBGUp = con.loadImage("BG Up.png");
+		con.clear();
+		con.drawImage(imgBGUp, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);
+		con.drawImage(imgSwapping, 0, 0);
+		con.repaint();
+		String strSwap = "";
+		
+		// printing swap scren
+		con.clear();
+		while(true){ // infinite loop
+			chrTyped = con.getChar();
+			con.drawString(strSwap, 534, 120);
+			if(chrTyped != 'n'){
+				if(chrTyped == '\n'){ // checking for enter
+					// used to check if the entered bet is all numbers
+					char chrDigit;
+					int intCount;
+					boolean blnNumberic = true;
+					for(intCount = 0; intCount < strSwap.length(); intCount++){
+						chrDigit = strSwap.charAt(intCount);
+						if(chrDigit < 49 || chrDigit > 53){ // check if the char is beyond the 5 numbers
+							blnNumberic = false;
+						}
+					}
+					if(!strSwap.equals("") && blnNumberic == true){
+						SwappedHand(con, intHand, intDeck, strSwap, intUserMoney, intUserBet);
+						fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+						con.setDrawColor(Color.WHITE);
+						con.setDrawFont(fntFont);	
+						break;
+					}else{
+						con.clear();
+						con.drawImage(imgBGUp, 0, 0);
+						con.drawImage(imgMoney, 0, 0);
+						con.drawString("You have: $"+intUserMoney, 50, 30);
+						con.drawString("Your bet: $"+intUserBet, 960, 30);
+						con.drawImage(imgSwapping, 0, 0);
+						con.setDrawColor(Color.RED);
+						con.drawString("Invalid Card(s)!", 534, 120);
+						con.repaint();
+						con.setDrawColor(Color.WHITE);
+						con.sleep(1200); 
+						con.clear();
+						con.drawImage(imgBGUp, 0, 0);
+						con.drawImage(imgMoney, 0, 0);
+						con.drawString("You have: $"+intUserMoney, 50, 30);
+						con.drawString("Your bet: $"+intUserBet, 960, 30);
+						con.drawImage(imgSwapping, 0, 0);
+						con.repaint();
+						strSwap = ""; 
+						continue;
+					}
+				}
+				con.setDrawColor(Color.WHITE);
+				if(chrTyped == 8 && strSwap.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
+					strSwap = strSwap.substring(0, strSwap.length()-1);
+					con.clear();
+					con.drawImage(imgBGUp, 0, 0);
+					con.drawImage(imgMoney, 0, 0);
+					con.drawString("You have: $"+intUserMoney, 50, 30);
+					con.drawString("Your bet: $"+intUserBet, 960, 30);
+					con.drawImage(imgSwapping, 0, 0);
+					con.repaint();
+					con.drawString(strSwap, 534, 120);
+				}
+				if(chrTyped != 8){
+					con.clear();
+					strSwap = strSwap + chrTyped;
+					con.drawImage(imgBGUp, 0, 0);
+					con.drawImage(imgMoney, 0, 0);
+					con.drawString("You have: $"+intUserMoney, 50, 30);
+					con.drawString("Your bet: $"+intUserBet, 960, 30);
+					con.drawImage(imgSwapping, 0, 0);
+					con.repaint();
+					con.drawString(strSwap, 534, 120);
+				}
+				
+				con.drawImage(imgSwapping, 0, 0);
+				con.drawString(strSwap, 534, 120);
+				con.repaint();
+			}else{
+				con.clear();
+				con.drawImage(imgBGUp, 0, 0);
+				con.drawImage(imgMoney, 0, 0);
+				con.drawString("You have: $"+intUserMoney, 50, 30);
+				con.drawString("Your bet: $"+intUserBet, 960, 30);
+				con.repaint();
+				break;
+			}
 		}
 		
 		// used to calculate results from hand
@@ -448,43 +551,123 @@ public class CPTtools{
     }
 
 	// used to load your hand
-	public static void InitialHand(Console con, int intHand[][], int intDeck[][]){
+	public static void InitialHand(Console con, int intHand[][], int intDeck[][], int intUserMoney, int intUserBet){
+		// load font
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);
+		con.setDrawColor(Color.WHITE);
+		
+		// load images
+		BufferedImage imgDark = con.loadImage("Dark.png");
+		BufferedImage imgPlay = con.loadImage("Play.png");
+		BufferedImage imgMoney = con.loadImage("Money.png");
+		
+		// back of cards 
+		BufferedImage imgCardBack = con.loadImage("CardBack.png");
+		int intY = 720;
+		
+		// animating cards
+		while(intY != 320){
+			con.clear();
+			con.drawImage(imgPlay, 0, 0);
+			con.drawImage(imgMoney, 0, 0);
+			con.drawString("You have: $"+intUserMoney, 50, 30);
+			con.drawString("Your bet: $"+intUserBet, 960, 30);
+			
+			con.drawImage(imgCardBack, 45, intY);
+			con.drawImage(imgCardBack, 291, intY);
+			con.drawImage(imgCardBack, 537, intY);
+			con.drawImage(imgCardBack, 783, intY);
+			con.drawImage(imgCardBack, 1029, intY);
+			con.repaint();
+			
+			intY = intY - 10;
+			
+			con.sleep(18);
+		}
+		
+		con.sleep(500);
+		
 		int intCountHand;
 		
+		// for grabbing cards from deck and load it to your hand
 		for(intCountHand = 0; intCountHand < 5; intCountHand++){
 			intHand[intCountHand][0] = intDeck[intCountHand][0];
 			intHand[intCountHand][1] = intDeck[intCountHand][1];
 		}
-			intHand = sortHand(intHand);
-		for(intCountHand = 0; intCountHand < 5; intCountHand++){
-			// used to show card value
-			con.print(intCountHand+1+" - ");
-			if(intHand[intCountHand][0] == 1){
-				con.print("A");
-			}else if(intHand[intCountHand][0] == 11){
-				con.print("J");
-			}else if(intHand[intCountHand][0] == 12){
-				con.print("Q");
-			}else if(intHand[intCountHand][0] == 13){
-				con.print("K");
-			}else{
-				con.print(intHand[intCountHand][0]);
-			}
+		
+		// sorting hand
+		intHand = sortHand(intHand);
 			
-			con.print(" of ");
+		// printing images
+		BufferedImage imgDiamonds = con.loadImage("Diamonds.png");
+		BufferedImage imgClubs = con.loadImage("Clubs.png");
+		BufferedImage imgHearts = con.loadImage("Hearts.png");
+		BufferedImage imgSpades = con.loadImage("Spades.png");
+		
+		con.clear();
+		con.drawImage(imgPlay, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);
+		con.repaint();
+		int intX = 45;
+		
+		for(intCountHand = 0; intCountHand < 5; intCountHand++){
+			con.setDrawColor(Color.WHITE);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 40);
+			con.setDrawFont(fntFont);
+			con.fillRoundRect(intX, 330, 206, 290, 11, 11);
 			
 			// used to show card suit
 			if(intHand[intCountHand][1] == 1){
-				con.print("diamonds");
+				// con.print("diamonds");
+				con.setDrawColor(Color.RED);
+				con.drawImage(imgDiamonds, intX+61, 430);
 			}else if(intHand[intCountHand][1] == 2){
-				con.print("clubs");
+				// con.print("clubs");
+				con.setDrawColor(Color.BLACK);
+				con.drawImage(imgClubs, intX+61, 430);
 			}else if(intHand[intCountHand][1] == 3){
-				con.print("hearts");
+				// con.print("hearts");
+				con.setDrawColor(Color.RED);
+				con.drawImage(imgHearts, intX+61, 430);
 			}else if(intHand[intCountHand][1] == 4){
-				con.print("spades");
+				// con.print("spades");
+				con.setDrawColor(Color.BLACK);
+				con.drawImage(imgSpades, intX+61, 430);
 			}
 			
-			con.println("");
+			// used to show card value
+			// con.print(intCountHand+1+" - ");
+			if(intHand[intCountHand][0] == 1){
+				// con.print("A");
+				con.drawString("A", intX+10, 338);
+				con.drawString("A", intX+10+150, 548);
+			}else if(intHand[intCountHand][0] == 11){
+				// con.print("J");
+				con.drawString("J", intX+10, 338);
+				con.drawString("J", intX+10+150, 548);
+			}else if(intHand[intCountHand][0] == 12){
+				// con.print("Q");
+				con.drawString("Q", intX+10, 338);
+				con.drawString("Q", intX+10+150, 548);
+			}else if(intHand[intCountHand][0] == 13){
+				// con.print("K");
+				con.drawString("K", intX+10, 338);
+				con.drawString("K", intX+10+150, 548);
+			}else{
+				// con.print(intHand[intCountHand][0]);
+				con.drawString(Integer.toString(intHand[intCountHand][0]), intX+10, 338);
+				con.drawString(Integer.toString(intHand[intCountHand][0]), intX+10+150, 548);
+			}
+			
+			// con.print(" of ");
+			
+			intX = intX + 246;
+			con.repaint();
+			// con.println("");
 		}
 	}
 
@@ -510,7 +693,56 @@ public class CPTtools{
 	}
 
 	// used to swap hand
-	public static void SwappedHand(Console con, int intHand[][], int intDeck[][], String strSwap){
+	public static void SwappedHand(Console con, int intHand[][], int intDeck[][], String strSwap, int intUserMoney, int intUserBet){
+		// load font
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);
+		con.setDrawColor(Color.WHITE);
+		
+		// load images
+		con.clear();
+		BufferedImage imgDark = con.loadImage("Dark.png");
+		BufferedImage imgPlay = con.loadImage("Play.png");
+		BufferedImage imgBGUp = con.loadImage("BG Up.png");
+		BufferedImage imgMoney = con.loadImage("Money.png");
+		BufferedImage imgCardBack = con.loadImage("CardBack.png");
+		con.drawImage(imgBGUp, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);
+		con.drawImage(imgCardBack, 45, 330);
+		con.drawImage(imgCardBack, 291, 330);
+		con.drawImage(imgCardBack, 537, 330);
+		con.drawImage(imgCardBack, 783, 330);
+		con.drawImage(imgCardBack, 1029, 330);
+		con.repaint();
+		
+		con.sleep(500); // wait before showing the animation
+		
+		int intY = 330;
+		
+		// animating cards
+		while(intY != 750){
+			con.clear();
+			con.drawImage(imgPlay, 0, 0);
+			con.drawImage(imgMoney, 0, 0);
+			con.drawString("You have: $"+intUserMoney, 50, 30);
+			con.drawString("Your bet: $"+intUserBet, 960, 30);
+			
+			con.drawImage(imgCardBack, 45, intY);
+			con.drawImage(imgCardBack, 291, intY);
+			con.drawImage(imgCardBack, 537, intY);
+			con.drawImage(imgCardBack, 783, intY);
+			con.drawImage(imgCardBack, 1029, intY);
+			con.repaint();
+			
+			intY = intY + 10;
+			
+			con.sleep(18);
+		}
+		
+		con.sleep(500);
+		
 		int intLength = strSwap.length();
 		String strSwapCardNumber;
 		int intSwapCardNumber[];
@@ -529,38 +761,102 @@ public class CPTtools{
 			intHand[intSwapCardNumber[intCount1]][1] = intDeck[5 + intCount1][1];
 		}
 		intHand = sortHand(intHand);
-		// print entire updated hand
+		
+		// moving cards back up
+		intY = 720;
+		
+		// animating cards
+		while(intY != 320){
+			con.clear();
+			con.drawImage(imgPlay, 0, 0);
+			con.drawImage(imgMoney, 0, 0);
+			con.drawString("You have: $"+intUserMoney, 50, 30);
+			con.drawString("Your bet: $"+intUserBet, 960, 30);
+			
+			con.drawImage(imgCardBack, 45, intY);
+			con.drawImage(imgCardBack, 291, intY);
+			con.drawImage(imgCardBack, 537, intY);
+			con.drawImage(imgCardBack, 783, intY);
+			con.drawImage(imgCardBack, 1029, intY);
+			con.repaint();
+			
+			intY = intY - 10;
+			
+			con.sleep(18);
+		}
+		
+		con.sleep(500);
+		
+		// printing updated images
+		BufferedImage imgDiamonds = con.loadImage("Diamonds.png");
+		BufferedImage imgClubs = con.loadImage("Clubs.png");
+		BufferedImage imgHearts = con.loadImage("Hearts.png");
+		BufferedImage imgSpades = con.loadImage("Spades.png");
+		
+		con.clear();
+		con.drawImage(imgPlay, 0, 0);
+		con.drawImage(imgMoney, 0, 0);
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.drawString("You have: $"+intUserMoney, 50, 30);
+		con.drawString("Your bet: $"+intUserBet, 960, 30);
+		con.repaint();
+		int intX = 45;
 		int intCountHand;
+		
 		for(intCountHand = 0; intCountHand < 5; intCountHand++){
-			con.print(intCountHand+1+" - ");
+			con.setDrawColor(Color.WHITE);
+			fntFont = con.loadFont("FuturaLTProHeavy.otf", 40);
+			con.setDrawFont(fntFont);
+			con.fillRoundRect(intX, 330, 206, 290, 11, 11);
 			
-			// show card value
-			if(intHand[intCountHand][0] == 1){
-				con.print("A");
-			}else if(intHand[intCountHand][0] == 11){
-				con.print("J");
-			}else if(intHand[intCountHand][0] == 12){
-				con.print("Q");
-			}else if(intHand[intCountHand][0] == 13){
-				con.print("K");
-			}else{
-				con.print(intHand[intCountHand][0]);
-			}
-
-			con.print(" of ");
-
-			// show card suit
+			// used to show card suit
 			if(intHand[intCountHand][1] == 1){
-				con.print("diamonds");
+				// con.print("diamonds");
+				con.setDrawColor(Color.RED);
+				con.drawImage(imgDiamonds, intX+61, 430);
 			}else if(intHand[intCountHand][1] == 2){
-				con.print("clubs");
+				// con.print("clubs");
+				con.setDrawColor(Color.BLACK);
+				con.drawImage(imgClubs, intX+61, 430);
 			}else if(intHand[intCountHand][1] == 3){
-				con.print("hearts");
+				// con.print("hearts");
+				con.setDrawColor(Color.RED);
+				con.drawImage(imgHearts, intX+61, 430);
 			}else if(intHand[intCountHand][1] == 4){
-				con.print("spades");
+				// con.print("spades");
+				con.setDrawColor(Color.BLACK);
+				con.drawImage(imgSpades, intX+61, 430);
 			}
 			
-			con.println("");
+			// used to show card value
+			// con.print(intCountHand+1+" - ");
+			if(intHand[intCountHand][0] == 1){
+				// con.print("A");
+				con.drawString("A", intX+10, 338);
+				con.drawString("A", intX+10+150, 548);
+			}else if(intHand[intCountHand][0] == 11){
+				// con.print("J");
+				con.drawString("J", intX+10, 338);
+				con.drawString("J", intX+10+150, 548);
+			}else if(intHand[intCountHand][0] == 12){
+				// con.print("Q");
+				con.drawString("Q", intX+10, 338);
+				con.drawString("Q", intX+10+150, 548);
+			}else if(intHand[intCountHand][0] == 13){
+				// con.print("K");
+				con.drawString("K", intX+10, 338);
+				con.drawString("K", intX+10+150, 548);
+			}else{
+				// con.print(intHand[intCountHand][0]);
+				con.drawString(Integer.toString(intHand[intCountHand][0]), intX+10, 338);
+				con.drawString(Integer.toString(intHand[intCountHand][0]), intX+10+150, 548);
+			}
+			
+			// con.print(" of ");
+			
+			intX = intX + 246;
+			con.repaint();
+			// con.println("");
 		}
 	}
 
