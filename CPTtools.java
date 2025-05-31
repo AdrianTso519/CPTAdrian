@@ -81,6 +81,11 @@ public class CPTtools{
 					}
 					if(chrTyped == 8 && strUserName.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
 						strUserName = strUserName.substring(0, strUserName.length()-1);
+					}
+					if(chrTyped == 27){
+						con.drawImage(imgMain, 0, 0);
+						con.repaint();
+						MainScreen(con);
 					}else if(chrTyped != 8){
 						strUserName = strUserName + chrTyped;
 					}
@@ -221,35 +226,117 @@ public class CPTtools{
 	
 	// play screen
 	public static void PlayScreen(Console con, int intUserMoney, String strUserName){
-		// load font
-		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
-		con.setDrawFont(fntFont);
-		con.setDrawColor(Color.WHITE);
-		
-		// printing amount of money
-		con.println("You have: $"+intUserMoney);
+		// printing image
+		BufferedImage imgPlay = con.loadImage("Play.png");
+		con.drawImage(imgPlay, 0, 0);
 		
 		// preparing the deck
 		int intDeck[][];
 		intDeck = loadDeck();
 		
-		// ask for bet
-		int intUserBet = 0;
-		con.println("What is your bet?");
-		intUserBet = con.readInt();
-		
-		// bet cannot exceed users money
-		if(intUserBet > intUserMoney){
-			intUserBet = intUserMoney;
+		// printing screen based on name input
+		con.clear();
+		BufferedImage imgDark = con.loadImage("Dark.png");
+		BufferedImage imgBet1 = con.loadImage("Bet1.png");
+		BufferedImage imgBet2 = con.loadImage("Bet2.png");
+		con.drawImage(imgPlay, 0, 0);
+		con.drawImage(imgDark, 0, 0);
+		con.repaint();
+	
+		if(strUserName.equalsIgnoreCase("statitan")){
+			con.clear();
+			con.drawImage(imgPlay, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgBet2, 0, 0);
+			con.repaint();
+		}else{
+			con.clear();
+			con.drawImage(imgPlay, 0, 0);
+			con.drawImage(imgDark, 0, 0);
+			con.drawImage(imgBet1, 0, 0);
+			con.repaint();
 		}
 		
-		System.out.println("TEST BET VALUE: "+intUserBet);
+		// load font
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);
+		con.setDrawColor(Color.WHITE);
 		
-		// printing image
+		// asking for bet
+		int intUserBet = 0;
+		String strUserBet = "";
+		char chrTyped;
+		
 		con.clear();
-		BufferedImage imgPlay = con.loadImage("Play.png");
-		con.drawImage(imgPlay, 0, 0);
-		con.repaint();
+		while(true){ // infinite loop
+			chrTyped = con.getChar();
+			con.drawString("$"+strUserBet, 534, 340);
+			if(chrTyped == '\n'){ // checking for enter
+				// used to check if the entered bet is all numbers
+				char chrDigit;
+				int intCount;
+				boolean blnNumberic = true;
+				for(intCount = 0; intCount < strUserBet.length(); intCount++){
+					chrDigit = strUserBet.charAt(intCount);
+					if(chrDigit < 48 || chrDigit > 57){ // check if the char is beyond the 10 numbers
+						blnNumberic = false;
+					}
+				}
+				if(!strUserBet.equals("") && blnNumberic == false && strUserBet.matches("[0-9]+") && Integer.parseInt(strUserBet) > 0 && Integer.parseInt(strUserBet) <= intUserMoney){
+					break;
+				}else{
+					if(strUserName.equalsIgnoreCase("statitan")){
+						con.drawImage(imgBet2, 0, 0);
+					}else{
+						con.drawImage(imgBet1, 0, 0);
+					}
+					con.setDrawColor(Color.RED);
+					con.drawString("Invalid Bet!", 534, 340);
+					con.repaint();
+					con.sleep(1200); 
+					if(strUserName.equalsIgnoreCase("statitan")){
+						con.clear();
+						con.drawImage(imgBet2, 0, 0);
+					}else{
+						con.clear();
+						con.drawImage(imgBet1, 0, 0);
+					}
+					con.repaint();
+					strUserBet = ""; 
+					continue;
+				}
+			}
+			con.setDrawColor(Color.WHITE);
+			if(chrTyped == 8 && strUserBet.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
+				strUserBet = strUserBet.substring(0, strUserBet.length()-1);
+				if(strUserName.equalsIgnoreCase("statitan")){
+					con.clear();
+					con.drawImage(imgBet2, 0, 0);
+					con.repaint();
+				}else{
+					con.clear();
+					con.drawImage(imgBet1, 0, 0);
+					con.repaint();
+				}
+				con.drawString("$"+strUserBet, 534, 340);
+			}
+			if(chrTyped != 8){
+				strUserBet = strUserBet + chrTyped;
+				if(strUserName.equalsIgnoreCase("statitan")){
+					con.clear();
+					con.drawImage(imgBet2, 0, 0);
+					con.repaint();
+				}else{
+					con.clear();
+					con.drawImage(imgBet1, 0, 0);
+					con.repaint();
+				}
+				con.drawString("$"+strUserBet, 534, 340);
+			}
+		}
+		intUserBet = Integer.parseInt(strUserBet);
+		
+		System.out.println("TEST BET VALUE: "+intUserBet);
 		
 		// show hand
 		
