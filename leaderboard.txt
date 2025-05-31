@@ -6,3 +6,7 @@ adrian test 1
 1700
 Ken
 2000
+statitan
+100000
+hf
+900

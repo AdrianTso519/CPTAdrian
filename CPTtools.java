@@ -28,12 +28,16 @@ public class CPTtools{
 				con.repaint();
 				
 				char chrInputQuit = con.getChar();
-				if(chrInputQuit == 'y' || chrInputQuit == 'Y'){
-					con.closeConsole();
-				}else{
-					con.drawImage(imgMain, 0, 0);
-					con.repaint();
-					MainScreen(con);
+				while(chrInputQuit != 'y' || chrInputQuit != 'Y' || chrInputQuit != 'n' || chrInputQuit != 'N'){
+					if(chrInputQuit == 'y' || chrInputQuit == 'Y'){
+						con.closeConsole();
+					}else if(chrInputQuit == 'n' || chrInputQuit == 'N'){
+						con.drawImage(imgMain, 0, 0);
+						con.repaint();
+						MainScreen(con);
+					}else{
+						chrInputQuit = con.getChar();
+					}
 				}
 			}else if(chrInputMain == 's' || chrInputMain == 'S'){
 				con.clear();
@@ -53,15 +57,39 @@ public class CPTtools{
 
 			}else if(chrInputMain == 'p' || chrInputMain == 'P'){
 				con.clear();
-				BufferedImage imgBG = con.loadImage("BG.png");
-				con.drawImage(imgBG, 0, 0);
+				BufferedImage imgName = con.loadImage("Name.png");
+				BufferedImage imgDark = con.loadImage("Dark.png");
+				con.drawImage(imgDark, 0, 0);
+				con.drawImage(imgName, 0, 0);
+				con.repaint();
 				
 				
 				// ask for username
 				String strUserName;
-				con.println("What is your name?");
-				strUserName = con.readLine();
+				char chrTyped;
+				strUserName = "";
 				
+				// loop that adds character typed to a string
+				Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+				con.setDrawFont(fntFont);
+				con.setDrawColor(Color.WHITE);
+				
+				while(true){ // infinite loop
+					chrTyped = con.getChar();
+					if(chrTyped == '\n'){ // checking for enter
+						break;
+					}
+					if(chrTyped == 8 && strUserName.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
+						strUserName = strUserName.substring(0, strUserName.length()-1);
+					}else if(chrTyped != 8){
+						strUserName = strUserName + chrTyped;
+					}
+					con.clear();
+					con.drawImage(imgName, 0, 0);
+					con.drawString(strUserName, 534, 317);
+					con.repaint();
+				}
+					
 				// giving out money to player
 				int intUserMoney = 0;
 				if(strUserName.equalsIgnoreCase("statitan")){
@@ -193,6 +221,17 @@ public class CPTtools{
 	
 	// play screen
 	public static void PlayScreen(Console con, int intUserMoney, String strUserName){
+		// load font
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);
+		con.setDrawColor(Color.WHITE);
+		
+		// printing image
+		con.clear();
+		BufferedImage imgPlay = con.loadImage("Play.png");
+		con.drawImage(imgPlay, 0, 0);
+		con.repaint();
+		
 		// printing amount of money
 		con.println("You have: $"+intUserMoney);
 		
