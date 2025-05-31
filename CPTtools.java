@@ -86,7 +86,7 @@ public class CPTtools{
 					}
 					con.clear();
 					con.drawImage(imgName, 0, 0);
-					con.drawString(strUserName, 534, 317);
+					con.drawString(strUserName, 534, 340);
 					con.repaint();
 				}
 					
@@ -226,12 +226,6 @@ public class CPTtools{
 		con.setDrawFont(fntFont);
 		con.setDrawColor(Color.WHITE);
 		
-		// printing image
-		con.clear();
-		BufferedImage imgPlay = con.loadImage("Play.png");
-		con.drawImage(imgPlay, 0, 0);
-		con.repaint();
-		
 		// printing amount of money
 		con.println("You have: $"+intUserMoney);
 		
@@ -250,6 +244,12 @@ public class CPTtools{
 		}
 		
 		System.out.println("TEST BET VALUE: "+intUserBet);
+		
+		// printing image
+		con.clear();
+		BufferedImage imgPlay = con.loadImage("Play.png");
+		con.drawImage(imgPlay, 0, 0);
+		con.repaint();
 		
 		// show hand
 		
