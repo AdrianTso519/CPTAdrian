@@ -258,13 +258,16 @@ public class CPTtools{
 		con.drawImage(imgDark, 0, 0);
 		con.drawImage(imgBet, 0, 0);
 		con.drawImage(imgMoney, 0, 0);
+		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);
+		con.setDrawColor(Color.WHITE);
 		con.drawString("You have: $"+intUserMoney, 50, 30);
 		con.drawString("Your bet:", 960, 30);
 		con.repaint();
 	
 		
 		// load font
-		Font fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
 		con.setDrawFont(fntFont);
 		con.setDrawColor(Color.WHITE);
 		
@@ -496,10 +499,14 @@ public class CPTtools{
 			}			
 			LBoard.close();
 		}else{
+			con.sleep(2000);
+			con.clear();
+			con.drawImage(imgResult, 0, 0);
 			con.drawString("Game Over...", 556, 260);
 			con.drawString("Returning to Main Screen...", 470, 429);
 			LBoard.println(strUserName);
 			LBoard.println(intUserMoney);
+			con.repaint();
 			con.sleep(2000);
 			MainScreen(con);
 		}
@@ -990,6 +997,8 @@ public class CPTtools{
 		con.setDrawFont(fntFont);	
 		con.drawImage(imgBGUp, 0, 0);
 		con.drawImage(imgMoney, 0, 0);
+		fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
+		con.setDrawFont(fntFont);	
 		con.drawString("You have: $"+intUserMoney, 50, 30);
 		con.drawString("Your bet: $"+intUserBet, 960, 30);	
 		fntFont = con.loadFont("FuturaLTProHeavy.otf", 29);

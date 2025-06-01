@@ -72,3 +72,17 @@ test
 964
 12
 988
+bernice
+0
+ken
+0
+doris
+4000
+adrian
+0
+12
+0
+1000
+0
+1000
+0
