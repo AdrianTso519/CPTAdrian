@@ -28,10 +28,10 @@ public class CPTtools{
 				con.repaint();
 				
 				char chrInputQuit = con.getChar();
-				while(chrInputQuit != 'y' || chrInputQuit != 'Y' || chrInputQuit != 'n' || chrInputQuit != 'N'){
-					if(chrInputQuit == 'y' || chrInputQuit == 'Y'){
+				while(chrInputQuit != '\n' || chrInputQuit != 'Y' || chrInputQuit != 27 || chrInputQuit != 'N'){
+					if(chrInputQuit == '\n' || chrInputQuit == 'Y'){
 						con.closeConsole();
-					}else if(chrInputQuit == 'n' || chrInputQuit == 'N'){
+					}else if(chrInputQuit == 27 || chrInputQuit == 'N'){
 						con.drawImage(imgMain, 0, 0);
 						con.repaint();
 						MainScreen(con);
@@ -131,14 +131,14 @@ public class CPTtools{
 				con.drawImage(imgHelp1, 0, 0);
 				con.repaint();
 				char chrInputHelp = con.getChar();
-				while(chrInputHelp != 'n' || chrInputHelp != 'N'){
-					if(chrInputHelp == 'n' || chrInputHelp == 'N'){
+				while(chrInputHelp != '\n' || chrInputHelp != 'N'){
+					if(chrInputHelp == '\n' || chrInputHelp == 'N'){
 						con.clear();
 						con.drawImage(imgHelp2, 0, 0);
 						con.repaint();
 						chrInputHelp = con.getChar();
-						while(chrInputHelp != 'c' || chrInputHelp != 'C'){
-							if(chrInputHelp == 'c' || chrInputHelp == 'C'){
+						while(chrInputHelp != '\n' || chrInputHelp != 'C'){
+							if(chrInputHelp == '\n' || chrInputHelp == 'C'){
 								con.drawImage(imgMain, 0, 0);
 								con.repaint();
 								MainScreen(con);
@@ -228,8 +228,8 @@ public class CPTtools{
 		// for closing screen
 		char chrInputSecret = con.getChar();
 		BufferedImage imgMain = con.loadImage("Cover.png");
-		while(chrInputSecret != 'r' || chrInputSecret != 'R'){
-			if(chrInputSecret == 'r' || chrInputSecret == 'R'){
+		while(chrInputSecret != '\n' || chrInputSecret != 'R'){
+			if(chrInputSecret == '\n' || chrInputSecret == 'R'){
 				con.drawImage(imgMain, 0, 0);
 				con.repaint();
 				MainScreen(con);
