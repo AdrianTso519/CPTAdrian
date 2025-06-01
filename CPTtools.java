@@ -942,7 +942,7 @@ public class CPTtools{
 		
 		// used to check if its royal flush
 		
-		if (intCardValue[0] == 1 && intCardValue[0] == 10 && intCardValue[0] == 11 && intCardValue[0] == 12 && intCardValue[0] == 13) { 
+		if (intCardValue[0] == 1 && intCardValue[1] == 10 && intCardValue[2] == 11 && intCardValue[3] == 12 && intCardValue[4] == 13) { 
 			blnRoyalStraight = true;
 			System.out.println("ROYAL STRAIGHT");
 		}
