@@ -294,23 +294,13 @@ public class CPTtools{
 				if(!strUserBet.equals("") && blnNumberic == true && Integer.parseInt(strUserBet) > 0 && Integer.parseInt(strUserBet) <= intUserMoney){
 					break;
 				}else{
-					con.drawImage(imgPlay, 0, 0);
-					con.drawImage(imgDark, 0, 0);
 					con.drawImage(imgBet, 0, 0);
-					con.drawImage(imgMoney, 0, 0);
-					con.drawString("You have: $"+intUserMoney, 50, 30);
-					con.drawString("Your bet:", 960, 30);
 					con.setDrawColor(Color.RED);
 					con.drawString("Invalid Bet!", 534, 340);
 					con.repaint();
 					con.setDrawColor(Color.WHITE);
 					con.sleep(1200); 
-					con.drawImage(imgPlay, 0, 0);
-					con.drawImage(imgDark, 0, 0);
 					con.drawImage(imgBet, 0, 0);
-					con.drawImage(imgMoney, 0, 0);
-					con.drawString("You have: $"+intUserMoney, 50, 30);
-					con.drawString("Your bet:", 960, 30);
 					con.repaint();
 					strUserBet = ""; 
 					continue;
@@ -320,24 +310,14 @@ public class CPTtools{
 			if(chrTyped == 8 && strUserBet.length() > 0){ // checking for backspace, >0 to prevent errors in the substring
 				strUserBet = strUserBet.substring(0, strUserBet.length()-1);
 				con.clear();
-				con.drawImage(imgPlay, 0, 0);
-				con.drawImage(imgDark, 0, 0);
 				con.drawImage(imgBet, 0, 0);
-				con.drawImage(imgMoney, 0, 0);
-				con.drawString("You have: $"+intUserMoney, 50, 30);
-				con.drawString("Your bet:", 960, 30);
 				con.repaint();
 				con.drawString("$"+strUserBet, 534, 340);
 			}
 			if(chrTyped != 8){
 				strUserBet = strUserBet + chrTyped;
 				con.clear();
-				con.drawImage(imgPlay, 0, 0);
-				con.drawImage(imgDark, 0, 0);
 				con.drawImage(imgBet, 0, 0);
-				con.drawImage(imgMoney, 0, 0);
-				con.drawString("You have: $"+intUserMoney, 50, 30);
-				con.drawString("Your bet:", 960, 30);
 				con.repaint();
 				con.drawString("$"+strUserBet, 534, 340);
 			}
