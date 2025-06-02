@@ -112,7 +112,7 @@ ethan
 0
 joshua
 1300
-￿
+jerper
 18000
 azaan
 0
@@ -157,5 +157,6 @@ gurt
 fgh
 0
 tly
+0
 rio chan
 20000
