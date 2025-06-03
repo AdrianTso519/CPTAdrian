@@ -6,7 +6,7 @@ import java.awt.Font;
 public class CPTAdrian{
 	// actual game
 	public static void main(String[] args){
-		Console con = new Console("CPTAdrian - Video Poker", 1280, 720);
+		Console con = new Console("Video Poker", 1280, 720);
 		// test: con.println(intDeck[50][0]);
 		// test: con.println(intDeck[50][1]);
 		MainScreen(con);
