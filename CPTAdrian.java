@@ -28,7 +28,7 @@ public class CPTAdrian{
 		char chrInputMain = con.getChar();
 		
 		// reacting to different keys being clicked
-		while(chrInputMain != 'q' || chrInputMain != 'Q' || chrInputMain != 'p' || chrInputMain != 'P' ||chrInputMain != 's' || chrInputMain != 'S' ||chrInputMain != 'l' || chrInputMain != 'L' ||chrInputMain != 'h' || chrInputMain != 'H' ){
+		while(chrInputMain != 'q' || chrInputMain != 'Q' || chrInputMain != 'p' || chrInputMain != 'P' ||chrInputMain != 's' || chrInputMain != 'S' ||chrInputMain != 'l' || chrInputMain != 'L' ||chrInputMain != 'h' || chrInputMain != 'H'){
 			if(chrInputMain == 'q' || chrInputMain == 'Q'){
 				BufferedImage imgQuit = con.loadImage("Quit.png");
 				con.clear();
@@ -53,8 +53,8 @@ public class CPTAdrian{
 				con.drawImage(imgJoke, 0, 0);
 				con.repaint();
 				char chrInputSecret = con.getChar();
-				while(chrInputSecret != 'c' || chrInputSecret != 'C'){
-					if(chrInputSecret == 'c' || chrInputSecret == 'C'){
+				while(chrInputSecret != '\n' || chrInputSecret != 'C'){
+					if(chrInputSecret == '\n' || chrInputSecret == 'C'){
 						con.drawImage(imgMain, 0, 0);
 						con.repaint();
 						MainScreen(con);
@@ -107,7 +107,7 @@ public class CPTAdrian{
 						con.drawImage(imgMain, 0, 0);
 						con.repaint();
 						MainScreen(con);
-					}else if(chrTyped < 33 || chrTyped > 126){
+					}else if(chrTyped < 32 || chrTyped > 126){
 						strUserName = strUserName;
 					}else if(chrTyped != 8){
 						strUserName = strUserName + chrTyped;
