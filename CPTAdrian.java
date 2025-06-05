@@ -331,6 +331,7 @@ public class CPTAdrian{
 			}
 		}
 		intUserBet = Integer.parseInt(strUserBet);
+		intUserMoney = intUserMoney - intUserBet;
 		con.clear();
 		con.drawImage(imgPlay, 0, 0);
 		con.drawImage(imgMoney, 0, 0);
@@ -1086,11 +1087,11 @@ public class CPTAdrian{
 			con.setDrawFont(fntFont);	
 			con.drawString("Payout: $"+intUserMoneyResult, 534, 340);
 		}else{
-			intUserMoneyResult = -1 * intUserBet;
+			intUserMoneyResult = 0 * intUserBet;
 			con.drawImage(imgBGUp, 0, 0);
 			con.drawImage(imgDark, 0, 0);
 			con.drawImage(imgResult, 0, 0);
-			con.drawString("You lost...", 579, 243);
+			con.drawString("You lose...", 579, 243);
 			con.drawString("You got nothing...", 529, 280);
 			fntFont = con.loadFont("FuturaLTProHeavy.otf", 26);
 			con.setDrawFont(fntFont);	
