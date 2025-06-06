@@ -1,3 +1,10 @@
+// -------------------------------------------------------------
+// Program Name:       CPTAdrian
+// Purpose:            Creating a Video Poker Game
+// Author:             Adrian Tso
+// Created:            May 23, 2025
+// -------------------------------------------------------------
+
 import arc.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -169,8 +176,7 @@ public class CPTAdrian{
 	public static void LeaderboardScreen(Console con){
 		// adding input from the txt file
 		TextInputFile LBoard = new TextInputFile("leaderboard.txt");
-		String strLBoard[];
-		int intLBoard[];
+		String strLBoard[][];
 		String strName = "";
 		String strScore = "";
 		int intLBoardCount = 0;
@@ -186,34 +192,33 @@ public class CPTAdrian{
 		LBoard.close();
 		
 		// setting up the array
-		strLBoard = new String[intLBoardCount];
-		intLBoard = new int[intLBoardCount];
+		strLBoard = new String[intLBoardCount][2];
 		
 		// reading actual data from input file
 		TextInputFile LBoard2 = new TextInputFile("leaderboard.txt");
 		int intCount;
 		
 		for(intCount = 0; intCount < intLBoardCount; intCount++){
-			strLBoard[intCount] = LBoard2.readLine();
-			intLBoard[intCount] = LBoard2.readInt();
-			System.out.println(strLBoard[intCount]);
-			System.out.println(intLBoard[intCount]);
+			strLBoard[intCount][0] = LBoard2.readLine();
+			strLBoard[intCount][1] = LBoard2.readLine();
+			System.out.println(strLBoard[intCount][0]);
+			System.out.println(strLBoard[intCount][1]);
 		}
 		
 		// sorting data from highest score to lowest
-		int intNext = 0;
+		int intCount2;
 		for (intCount = 0; intCount < intLBoardCount - 1; intCount++) {
-			for (intNext = intCount + 1; intNext < intLBoardCount; intNext++) {
-				if (intLBoard[intCount] < intLBoard[intNext]) {
+			for (intCount2 = intCount + 1; intCount2 < intLBoardCount; intCount2++) { // checking the next value
+				if (Integer.parseInt(strLBoard[intCount][1]) < Integer.parseInt(strLBoard[intCount2][1])) {
 					// swapping score (money)
-					int intTempScore = intLBoard[intCount];
-					intLBoard[intCount] = intLBoard[intNext];
-					intLBoard[intNext] = intTempScore;
+					String strTempScore = strLBoard[intCount][1];
+					strLBoard[intCount][1] = strLBoard[intCount2][1];
+					strLBoard[intCount2][1] = strTempScore;
 
 					// swapping names
-					String strTempName = strLBoard[intCount];
-					strLBoard[intCount] = strLBoard[intNext];
-					strLBoard[intNext] = strTempName;
+					String strTempName = strLBoard[intCount][0];
+					strLBoard[intCount][0] = strLBoard[intCount2][0];
+					strLBoard[intCount2][0] = strTempName;
 				}
 			}
 		}
@@ -228,8 +233,8 @@ public class CPTAdrian{
 		con.repaint();
 		for(intCount = 0; intCount < intLBoardCount && intCount < 10; intCount++){
 			con.drawString(Integer.toString(intCount+1), 448, intY);
-			con.drawString(strLBoard[intCount], 506, intY);
-			con.drawString("$"+Integer.toString(intLBoard[intCount]), 718, intY);
+			con.drawString(strLBoard[intCount][0], 506, intY);
+			con.drawString("$"+strLBoard[intCount][1], 718, intY);
 			intY = intY + 47;
 			con.repaint();
 		}
