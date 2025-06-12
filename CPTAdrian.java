@@ -1,8 +1,8 @@
 // -------------------------------------------------------------
-// Program Name:       CPTAdrian
-// Purpose:            Creating a Video Poker Game
 // Author:             Adrian Tso
-// Created:            May 23, 2025
+// Program Name:       CPTAdrian
+// Creation Date:      May 23, 2025
+// Version Number:     v2.2.0
 // -------------------------------------------------------------
 
 import arc.*;
